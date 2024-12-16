@@ -1,0 +1,59 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+debug.log
+error.log
+
+# Database files
+*.sql
+*.sqlite
+*.sqlite3
+*.db
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS-specific files
+*.swp
+*.swp~
+*.bak
+*.tmp
+*.orig
+
+# Deployment files
+.env.local
+.env.*.local
+
+# Test coverage
+coverage/
+
+# Build files
+build/
+dist/
+
+# Temporary files
+tmp/
+temp/
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Git
+.git/
