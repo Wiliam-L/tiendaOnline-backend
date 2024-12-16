@@ -1,0 +1,19 @@
+{
+  "name": "api-rest",
+  "version": "1.0.0",
+  "description": "API-REST para tienda online",
+  "main": "index.js",
+  "scripts": {
+    "dev": " nodemon ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wiliam-L/tiendaOnline-backend.git"
+  },
+  "author": "wlopez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wiliam-L/tiendaOnline-backend/issues"
+  },
+  "homepage": "https://github.com/Wiliam-L/tiendaOnline-backend#readme"
+}
