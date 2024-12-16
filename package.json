@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "API-REST para tienda online",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": " nodemon ./index.js"
   },
@@ -15,5 +16,15 @@
   "bugs": {
     "url": "https://github.com/Wiliam-L/tiendaOnline-backend/issues"
   },
-  "homepage": "https://github.com/Wiliam-L/tiendaOnline-backend#readme"
+  "homepage": "https://github.com/Wiliam-L/tiendaOnline-backend#readme",
+  "dependencies": {
+    "@sequelize/core": "^7.0.0-alpha.43",
+    "@sequelize/mssql": "^7.0.0-alpha.43",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
 }
