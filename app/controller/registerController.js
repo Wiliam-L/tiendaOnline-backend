@@ -2,13 +2,13 @@ import { createClient } from "../services/clientService.js";
 import { createUser } from "../services/userService.js";
 import sequelize from "../config/db.js";
 
-export const registerController = async (req, res) => {
+const registerController = async (req, res) => {
   const { cliente, usuario } = req.body;
 
   try {
     await sequelize.transaction(async (t) => {
       //1. Crear cliente
-      const clienteResult = await createClient(
+      await createClient(
         cliente.razon_social,
         cliente.nombre_comercial,
         cliente.direccion_entrega,
@@ -18,7 +18,7 @@ export const registerController = async (req, res) => {
       );
 
       //2. Crear usuario
-      const userResult = await createUser(
+      await createUser(
         usuario.rol_id,
         usuario.correo,
         usuario.nombre,
@@ -43,3 +43,5 @@ export const registerController = async (req, res) => {
     });
   }
 };
+
+export default registerController;
