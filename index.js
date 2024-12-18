@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import registerRoutes from "./app/routers/registerRoutes.js";
+import productRoutes from "./app/routers/productRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -15,9 +16,7 @@ const PORT = process.env.PORT || 3000;
 app.use("/api", registerRoutes);
 
 //Enpoints productos
-app.post("/create/products/", (req, res) => {
-  const data = req.body;
-});
+app.use("/api", productRoutes);
 
 app.patch("/update/products/:id", (req, res) => {
   const { id } = req.params;
