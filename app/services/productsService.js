@@ -2,7 +2,6 @@ import sequelize from "../config/db.js";
 import { QueryTypes } from "@sequelize/core";
 
 export const createProducts = async (
-  id_producto,
   id_categoria,
   id_usuario,
   nombre,
@@ -52,7 +51,6 @@ export const createProducts = async (
   try {
     const result = await sequelize.query(query, {
       replacements: {
-        id_producto,
         id_categoria,
         id_usuario,
         nombre,
@@ -69,9 +67,7 @@ export const createProducts = async (
 
     return result;
   } catch (error) {
-    if (error.name === "SequelizeUniqueConstraintError") {
-      throw new Error("Código ya esta en uso");
-    }
-    throw new Error("Hubo un error al crear el producto");
+    throw error;
+
   }
 };
