@@ -1,22 +1,27 @@
 import dotenv from "dotenv";
 import express from "express";
-import registerRoutes from "./app/routers/registerRoutes.js";
-import productRoutes from "./app/routers/productRoutes.js";
-
+import cookieParser from "cookie-parser";
+import registerUser from "./app/routers/registerRoutes.js";
+import createProducts from "./app/routers/productRoutes.js";
+import login from "./app/routers/loginRoutes.js";
+import getNewToken from "./app/routers/refreshTokenRoutes.js";
 const app = express();
 dotenv.config();
 
 //Middleware para parsear JSON
 app.use(express.json());
+app.use(cookieParser());
 
 //usar puerto desde .env o uno por defecto
 const PORT = process.env.PORT || 3000;
 
 //Endpoints para usuario
-app.use("/api", registerRoutes);
+app.use("/api", registerUser);
+app.use("/api", login);
+app.use("/api", getNewToken);
 
 //Enpoints productos
-app.use("/api", productRoutes);
+app.use("/api", createProducts);
 
 app.patch("/update/products/:id", (req, res) => {
   const { id } = req.params;
