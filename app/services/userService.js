@@ -88,7 +88,6 @@ export const validateUserCredentials = async (correo, password) => {
 
     return { id: id_user, nombre };
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };
