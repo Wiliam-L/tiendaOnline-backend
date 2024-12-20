@@ -11,7 +11,7 @@ export const validate = async (req, res) => {
   try {
     //validar credenciales del usuario
     const result = await validateUserCredentials(correo, password);
-    
+
     //generar el token de acceso y refresh
     const token = accessToken(result.id, result.nombre);
     const refresh = refreshToken(result.id, result.nombre);
@@ -35,7 +35,6 @@ export const validate = async (req, res) => {
       message: "Inicio de sesión exitoso.",
     });
   } catch (error) {
-    console.log(error);
 
     if (error.message === "El correo no está registrado") {
       return res.status(400).json({ message: error.message });
