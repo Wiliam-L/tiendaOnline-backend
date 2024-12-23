@@ -2,7 +2,7 @@ import sequelize from "../config/db.js";
 import { QueryTypes } from "@sequelize/core";
 
 //crear un cliente
-export const createClient = async (
+export const createCustomer = async (
   razon_social,
   nombre_comercial,
   direccion_entrega,
@@ -33,13 +33,6 @@ export const createClient = async (
     });
     return resultados;
   } catch (error) {
-    if (error.name === "SequelizeUniqueConstraintError") {
-      throw new Error("El correo electrónico ya está registrado");
-    } else {
-      throw new Error("Hubo un error al crear el cliente");
-    }
+    throw error;
   }
 };
-
-{
-}

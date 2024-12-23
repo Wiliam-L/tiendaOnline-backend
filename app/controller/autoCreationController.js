@@ -1,54 +1,14 @@
-import createOperator from "../services/operatorService.js";
 import sequelize from "../config/db.js";
 import { QueryTypes } from "@sequelize/core";
 import dotenv from "dotenv";
-import createRolService from "../services/RolService.js";
-import createStateService from "../services/stateService.js";
+import { createStateService } from "../services/stateService.js";
+import { createRolService } from "../services/rolService.js";
+import { createUser } from "../services/userService.js";
+import { updateData } from "../utils/fileUtils.js";
 
 dotenv.config();
 
-/**
- * Se crean los roles para usuarios       registrados o creado
- * Cliente -> rol "cliente"
- * Operador -> rol "operador"
- */
-export const createRolesAutomatic = async (status) => {
-  if (status === "TRUE") {
-    const roles = ["Cliente", "Operador", "Administrador"];
-
-    for (const rol of roles) {
-      try {
-        await createRolService(rol);
-        console.log("Rol creado con éxito: ", rol);
-      } catch (error) {
-        console.log("Error al crear el rol: ", rol);
-      }
-    }
-  }
-};
-
-/**
- * Se crean el rol "activo", "inactivo"
- * Los usuarios (creado ó registrados) se asignarán automaticamente el rol "activo"
- */
-
-export const createStateAutomatic = async (status_create) => {
-  const names = ["activo", "inactivo"];
-
-  if (status_create === "TRUE") {
-    for (const name of names) {
-      try {
-        await createStateService(name);
-        console.log(`Estado creado: ${name}`);
-      } catch (error) {
-        console.log("Error al crear el estado: ", name);
-      }
-    }
-  }
-};
-
-//crear automaticamente el operador
-export const createOperatorAutomatic = async (status) => {
+export const createSystemData = async (status) => {
   const nombre = process.env.NOMBRE;
   const telefono = process.env.TELEFONO;
   const correo = process.env.CORREO;
@@ -56,54 +16,111 @@ export const createOperatorAutomatic = async (status) => {
   const fecha_nacimiento = null;
 
   if (status === "TRUE") {
-    // Verificar si todos los datos necesarios están presentes
-    if (!nombre || !telefono || !correo || !password) {
-      return;
-    }
+    const roles = ["administrador", "operador", "cliente"];
+    const states = ["activo", "inactivo"];
+
     try {
-      //verificar si el operadro ya existe
-      const existingOperator = await sequelize.query(
-        `
-            SELECT * FROM usuarios WHERE correo_electronico = :correo;`,
-        {
-          replacements: { correo },
-          type: QueryTypes.SELECT,
+      await sequelize.transaction(async (t) => {
+        // Crear roles si no existen
+        for (const role of roles) {
+          const existingRole = await sequelize.query(
+            `SELECT * FROM rol WHERE LOWER(nombre) = :role`,
+            {
+              replacements: { role: role.toLowerCase() },
+              type: QueryTypes.SELECT,
+              transaction: t,
+            }
+          );
+
+          if (existingRole.length === 0) {
+            await createRolService(role, { transaction: t });
+            console.log(`Rol creado: ${role}`);
+          } else {
+            console.log(`El rol ya existe: ${role}`);
+          }
         }
-      );
 
-      if (existingOperator.length > 0) {
-        console.log("El operador ya existe con ese correo electrónico.");
-        return;
-      }
+        // Crear estados si no existen
+        for (const state of states) {
+          const existingState = await sequelize.query(
+            `SELECT * FROM estados WHERE LOWER(nombre) = :state`,
+            {
+              replacements: { state: state.toLowerCase() },
+              type: QueryTypes.SELECT,
+              transaction: t,
+            }
+          );
 
-      //Obtener id del rol -> administrador ó operador
-      const [rol] = await sequelize.query(
-        `
-            SELECT idrol FROM rol WHERE LOWER(nombre) = 'operador' OR LOWER(nombre) = 'administrador';`,
-        {
-          query: QueryTypes.SELECT,
+          if (existingState.length === 0) {
+            await createStateService(state, { transaction: t });
+            console.log(`Estado creado: ${state}`);
+          } else {
+            console.log(`El estado ya existe: ${state}`);
+          }
         }
-      );
 
-      if (!rol || !rol[0]) {
-        console.log("Rol no encontrado.");
-        return;
-      }
+        // Obtener solo el estado "activo"
+        const activeState = await sequelize.query(
+          `SELECT * FROM estados WHERE LOWER(nombre) = 'activo'`,
+          {
+            type: QueryTypes.SELECT,
+            transaction: t,
+          }
+        );
 
-      const rol_id = rol[0].idrol;
-      await createOperator(
-        rol_id,
-        correo,
-        nombre,
-        password,
-        telefono,
-        fecha_nacimiento
-      );
+        if (!activeState.length) {
+          throw new Error(
+            "El estado 'activo' no pudo ser creado ni encontrado."
+          );
+        }
 
-      console.log("Operador creado con éxito", correo);
+        // Verificar si el correo ya existe
+        const existingUser = await sequelize.query(
+          `SELECT * FROM usuarios WHERE LOWER(correo_electronico) = :correo`,
+          {
+            replacements: { correo: correo.toLowerCase() },
+            type: QueryTypes.SELECT,
+            transaction: t,
+          }
+        );
+
+        // Si el correo no existe, se crea el usuario como administrador
+        if (existingUser.length === 0) {
+          const adminRole = await sequelize.query(
+            `SELECT * FROM rol WHERE LOWER(nombre) = 'administrador'`,
+            {
+              type: QueryTypes.SELECT,
+              transaction: t,
+            }
+          );
+
+          if (!adminRole.length) {
+            throw new Error("El rol 'administrador' no pudo ser encontrado.");
+          }
+
+          const a = await createUser(
+            adminRole[0].idrol,
+            activeState[0].idestados,
+            correo,
+            nombre,
+            password,
+            telefono,
+            fecha_nacimiento,
+
+            { transaction: t }
+          );
+          console.log("Usuario administrador creado exitosamente.");
+        } else {
+          console.log("El correo ya está registrado.");
+        }
+
+        console.log("Datos iniciales creados exitosamente.");
+      });
+
+      updateData("CREATE_AUTOMATIC=FALSE");
     } catch (error) {
-      //console.log(error);
-      return;
+      console.error("Error al crear los datos iniciales:", error.message);
+      throw error;
     }
   }
 };

@@ -10,6 +10,8 @@ const createOperator = async (
   telefono,
   fecha_nacimiento
 ) => {
+  const t = await sequelize.transaction();
+
   try {
     const hashedPassword = await hashPassword(password);
     const query = `
@@ -30,11 +32,14 @@ const createOperator = async (
         telefono,
         fecha_nacimiento,
       },
+      transaction: t,
       type: QueryTypes.SELECT,
     });
 
+    await t.commit();
     return result;
   } catch (error) {
+    await t.rollback();
     if (error.name === "SequelizeUniqueConstraintError") {
       throw new Error("El correo electrónico ya está registrado");
     }

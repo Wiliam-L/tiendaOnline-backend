@@ -1,24 +1,36 @@
-import sequelize from "../config/db.js";
-import { QueryTypes } from "@sequelize/core";
+import Rol from "../model/rol.js";
+import rolModel from "../model/rol.js";
 
-const createRolService = async (nombre) => {
+export const createRolService = async (nombre, options = {}) => {
   try {
-    const query = `
-        EXEC NuevoRol
-            @nombre = :nombre;
-        ;
-     `;
-    const [result, metadata] = await sequelize.query(query, {
-      replacements: {
-        nombre,
-      },
-      type: QueryTypes.SELECT,
-    });
+    const create = await rolModel.create(
+      { nombre },
+      { transaction: options.transaction }
+    );
+    return create;
+  } catch (error) {
+    throw error;
+  }
+};
 
+//update rol
+export const updateRolService = async (idrol, nombre, options = {}) => {
+  try {
+    const result = await Rol.update(
+      { nombre: nombre },
+      { where: { idrol: idrol }, transaction: options.transaction }
+    );
     return result;
   } catch (error) {
     throw error;
   }
 };
 
-export default createRolService;
+//obtener roles
+export const getRol = async () => {
+  try {
+    return await rolModel.findAll();
+  } catch (error) {
+    throw error;
+  }
+};

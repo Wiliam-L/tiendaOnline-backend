@@ -21,7 +21,6 @@ export const refreshToken = (iduser, rol) => {
 //obtener el nuevo token de acceso usando el refrshToken
 export const getNewToken = (req, res, next) => {
   const refresh = req.cookies.refresh;
-  console.log(refresh);
   if (!refresh) {
     return res
       .status(401)
@@ -46,36 +45,6 @@ export const getNewToken = (req, res, next) => {
   }
 };
 
-//comprobar si el token de acceso es válido
-export const validateAccessToken = (req, res) => {
-  const token = req.cookies.access;
-  if (!token) {
-    return res.status(401).json({ message: "No se encontro el token" });
-  }
-  try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    return decoded;
-  } catch (error) {
-    if (error.name === "TokenExpiredError") {
-      return res.status(401).json({ message: "Token expirado" });
-    }
-  }
-};
-
-//comprobar el rol del usuario actual
-export const checkRole = (roles) => {
-  return (req, res, next) => {
-    const decoded = validateAccessToken(req, res);
-
-    if (!roles.includes(decoded.rol)) {
-      return res
-        .status(403)
-        .json({ message: "No tiene permisos para este recurso" });
-    }
-
-    next();
-  };
-};
 
 //obtener el id del usuario actual
 export const getIdUserForCookie = (req) => {

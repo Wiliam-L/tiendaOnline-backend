@@ -1,7 +1,7 @@
 import { validateUserCredentials } from "../services/userService.js";
 import { accessToken, refreshToken } from "../utils/token.js";
 
-export const validate = async (req, res) => {
+export const validate = async (req, res, next) => {
   const { correo, password } = req.body;
   if (!correo || !password) {
     return res
@@ -35,17 +35,6 @@ export const validate = async (req, res) => {
       message: "Inicio de sesión exitoso.",
     });
   } catch (error) {
-
-    if (error.message === "El correo no está registrado") {
-      return res.status(400).json({ message: error.message });
-    }
-    if (error.message === "El usuario no está activo") {
-      return res.status(403).json({ message: error.message });
-    }
-    if (error.message === "La contraseña es incorrecta") {
-      return res.status(401).json({ message: error.message });
-    }
-
-    return res.status(500).json({ message: "Hubo un erro al iniciar sesión" });
+    next(error);
   }
 };
