@@ -68,6 +68,61 @@ El proyecto está organizado de la siguiente manera:
 
 ---
 
+## 🔹 **Endpoints del API**
+
+### **Autenticación** (`/auth`)
+| Método | Ruta                           | Descripción                                    |
+|--------|--------------------------------|------------------------------------------------|
+| POST   | `/auth/login`                  | Inicia sesión y devuelve un token de autenticación. |
+| POST   | `/auth/register`               | Registra un nuevo usuario.                    |
+| POST   | `/auth/register/operator`      | Registra un nuevo operador (requiere permisos de administrador). |
+| POST   | `/auth/refresh-token`          | Genera un nuevo token de acceso.              |
+
+### **Usuarios** (`/user`)
+| Método | Ruta                           | Descripción                                    |
+|--------|--------------------------------|------------------------------------------------|
+| PATCH  | `/user/user/:id`               | Actualiza la información de un usuario.       |
+| PATCH  | `/user/user/delete/:id`             | Elimina un usuario.                           |
+| GET    | `user/user/get`                    | Obtiene información de usuarios (requiere permisos). |
+
+### **Órdenes** (`/api/order`)
+| Método | Ruta                           | Descripción                                    |
+|--------|--------------------------------|------------------------------------------------|
+| POST   | `/api/order/create`                | Crea una nueva orden (requiere permisos).     |
+
+### **Roles** (`/api/role`)
+| Método | Ruta                           | Descripción                                    |
+|--------|--------------------------------|------------------------------------------------|
+| POST   | `/api/role/create`                 | Crea un nuevo rol (requiere permisos de administrador). |
+| PATCH  | `/api/role/update/:id`             | Actualiza un rol existente.                   |
+| GET    | `/api/role/get`                    | Obtiene todos los roles.                      |
+
+### **Productos** (`/api/product`)
+| Método | Ruta                           | Descripción                                    |
+|--------|--------------------------------|------------------------------------------------|
+| POST   | `/api/product/create`              | Crea un nuevo producto.                       |
+| PATCH  | `/api/product/update/:id`          | Actualiza un producto existente.              |
+| PATCH  | `/api/product/inactive/:id`        | Inactiva un producto.                         |
+| GET    | `/api/product/get`                 | Obtiene todos los productos.                  |
+
+### **Categorías** (`/api/category`)
+| Método | Ruta                           | Descripción                                    |
+|--------|--------------------------------|------------------------------------------------|
+| POST   | `/api/category/create`             | Crea una nueva categoría.                     |
+| PATCH  | `/api/category/update/:id`         | Actualiza una categoría existente.            |
+| PATCH  | `/api/category/inactive/:id`       | Inactiva una categoría.                       |
+| GET    | `/api/category/get`                | Obtiene todas las categorías.                 |
+
+### **Estados** (`/api/state`)
+| Método | Ruta                           | Descripción                                    |
+|--------|--------------------------------|------------------------------------------------|
+| POST   | `/api/state/create`                | Crea un nuevo estado.                         |
+| PATCH  | `/api/state/update/:id`            | Actualiza un estado existente.                |
+| GET    | `/api/state/get`                   | Obtiene todos los estados.                    |
+
+
+---
+
 ## ⚠️ **Notas importantes**
 
 - **⚡️ Asegúrate de tener configurada la base de datos correctamente** antes de ejecutar el servidor.
@@ -76,3 +131,10 @@ El proyecto está organizado de la siguiente manera:
 - **❗ Advertencia:** **No crees usuarios directamente desde la base de datos**, ya que las contraseñas no se hashean de la manera adecuada. Al hacerlo, cuando intentes iniciar sesión, la comparación de la contraseña no funcionará correctamente, ya que se utiliza **bcrypt** para comparar el hash generado durante el registro a través del endpoint de registro.
 
 ---
+
+
+
+
+
+
+
