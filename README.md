@@ -81,9 +81,7 @@ El proyecto está organizado de la siguiente manera:
 ### **Usuarios** (`/user`)
 | Método | Ruta                           | Descripción                                    |
 |--------|--------------------------------|------------------------------------------------|
-| PATCH  | `/user/user/:id`               | Actualiza la información de un usuario.       |
-| PATCH  | `/user/user/delete/:id`             | Elimina un usuario.                           |
-| GET    | `user/user/get`                    | Obtiene información de usuarios (requiere permisos). |
+| GET    | `user/user/get`                    | Obtiene información de usuarios (requiere permisos de administrador).. |
 
 ### **Órdenes** (`/api/order`)
 | Método | Ruta                           | Descripción                                    |
@@ -94,31 +92,31 @@ El proyecto está organizado de la siguiente manera:
 | Método | Ruta                           | Descripción                                    |
 |--------|--------------------------------|------------------------------------------------|
 | POST   | `/api/role/create`                 | Crea un nuevo rol (requiere permisos de administrador). |
-| PATCH  | `/api/role/update/:id`             | Actualiza un rol existente.                   |
-| GET    | `/api/role/get`                    | Obtiene todos los roles.                      |
+| PATCH  | `/api/role/update/:id`             | Actualiza un rol existente (requiere permisos de administrador).                  |
+| GET    | `/api/role/get`                    | Obtiene todos los roles (requiere permisos).                |
 
 ### **Productos** (`/api/product`)
 | Método | Ruta                           | Descripción                                    |
 |--------|--------------------------------|------------------------------------------------|
-| POST   | `/api/product/create`              | Crea un nuevo producto.                       |
-| PATCH  | `/api/product/update/:id`          | Actualiza un producto existente.              |
-| PATCH  | `/api/product/inactive/:id`        | Inactiva un producto.                         |
-| GET    | `/api/product/get`                 | Obtiene todos los productos.                  |
+| POST   | `/api/product/create`              | Crea un nuevo producto (requiere permisos de administrador).                       |
+| PATCH  | `/api/product/update/:id`          | Actualiza un producto existente (requiere permisos de administrador).              |
+| PATCH  | `/api/product/inactive/:id`        | Inactiva un producto (requiere permisos de administrador).                         |
+| GET    | `/api/product/get`                 | Obtiene todos los productos (requiere permisos).                  |
 
 ### **Categorías** (`/api/category`)
 | Método | Ruta                           | Descripción                                    |
 |--------|--------------------------------|------------------------------------------------|
-| POST   | `/api/category/create`             | Crea una nueva categoría.                     |
-| PATCH  | `/api/category/update/:id`         | Actualiza una categoría existente.            |
-| PATCH  | `/api/category/inactive/:id`       | Inactiva una categoría.                       |
-| GET    | `/api/category/get`                | Obtiene todas las categorías.                 |
+| POST   | `/api/category/create`             | Crea una nueva categoría (requiere permisos de administrador). |
+| PATCH  | `/api/category/update/:id`         | Actualiza una categoría existente (requiere permisos de administrador). |
+| PATCH  | `/api/category/inactive/:id`       | Inactiva una categoría (requiere permisos de administrador). |
+| GET    | `/api/category/get`                | Obtiene todas las categorías (requiere permisos). |
 
 ### **Estados** (`/api/state`)
 | Método | Ruta                           | Descripción                                    |
 |--------|--------------------------------|------------------------------------------------|
-| POST   | `/api/state/create`                | Crea un nuevo estado.                         |
-| PATCH  | `/api/state/update/:id`            | Actualiza un estado existente.                |
-| GET    | `/api/state/get`                   | Obtiene todos los estados.                    |
+| POST   | `/api/state/create`                | Crea un nuevo estado (requiere permisos de administrador). |
+| PATCH  | `/api/state/update/:id`            | Actualiza un estado existente (requiere permisos de administrador). |
+| GET    | `/api/state/get`                   | Obtiene todos los estados (requiere permisos).|
 
 
 ---
