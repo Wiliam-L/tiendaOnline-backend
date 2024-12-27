@@ -1,59 +1,50 @@
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Environment variables
-.env
-
-# Logs
-logs/
-*.log
-debug.log
-error.log
-
-# Database files
-*.sql
-*.sqlite
-*.sqlite3
-*.db
-
-# System files
-.DS_Store
+<<<<<<< HEAD
+# Archivos del sistema operativo Windows
 Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db
 
-# Editor/IDE settings
-.vscode/
-.idea/
-*.sublime-workspace
-*.sublime-project
-
-# OS-specific files
-*.swp
-*.swp~
-*.bak
+# Archivos temporales de Windows
 *.tmp
-*.orig
+*.temp
+*.log
+*.bak
+*.swp
+*.swo
+*.old
+*.~lock.*
 
-# Deployment files
-.env.local
-.env.*.local
+# Carpetas de usuario en Windows
+.DS_Store
+/System Volume Information
+RECYCLER/
+$Recycle.Bin/
 
-# Test coverage
-coverage/
+# Archivos generados por Visual Studio Code
+.vscode/
+*.code-workspace
 
-# Build files
+# Archivos de configuración del usuario de VS Code
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+
+# Archivos de entorno
+.env
+*.local
+
+# Archivos de compilación y binarios
 build/
 dist/
+*.exe
+*.dll
+*.obj
+*.o
+*.pdb
 
-# Temporary files
-tmp/
-temp/
+# Archivos de bloqueo de paquetes
+*.lock
 
-# Lock files
-package-lock.json
-yarn.lock
-
-# Git
-.git/
+# Archivos de caché
+.cache/
