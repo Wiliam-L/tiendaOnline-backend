@@ -43,9 +43,6 @@ coverage/
 # Local React settings
 *.local
 
-# Next.js (si decides usarlo en el futuro)
-.next/
-out/
 
 # Storybook files
 storybook-static/
